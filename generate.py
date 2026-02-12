@@ -798,7 +798,7 @@ def homepage_html(*, mode: Mode) -> str:
     + make_section(headings=CONFIG.main_h2, paras=CONFIG.main_p)
     + """
 <hr />
-<h2>Choose your city</h2>
+<h2>Our Service Area</h2>
 <p class="muted">We provide services nationwide, including in the following cities:</p>
 <ul class="city-grid">
 """
@@ -921,7 +921,7 @@ def cost_page_html(*, mode: Mode, include_city_index: bool) -> str:
     inner += (
       """
 <hr />
-<h2>Choose your city</h2>
+<h2>Our Service Area</h2>
 <p class="muted">See local price ranges by city:</p>
 <ul class="city-grid">
 """
@@ -1010,7 +1010,7 @@ def state_homepage_html(*, mode: Mode) -> str:
     + make_section(headings=CONFIG.main_h2, paras=CONFIG.main_p)
     + """
 <hr />
-<h2>Choose your state</h2>
+<h2>Our Service Area</h2>
 <p class="muted">We provide services nationwide, including in the following states:</p>
 <ul class="city-grid">
 """
