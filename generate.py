@@ -888,7 +888,8 @@ def contact_page_html(mode: Mode) -> str:
 
 def city_page_html(*, mode: Mode, city: str, st: str, col: float, canonical: str) -> str:
   inner = (
-    make_section(headings=CONFIG.main_h2, paras=CONFIG.main_p)
+    f"<p>{esc(CONFIG.about_blurb)}</p>\n"
+    + make_section(headings=CONFIG.main_h2, paras=CONFIG.main_p)
     + location_cost_section(city, st, col)
   )
 
