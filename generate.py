@@ -212,6 +212,23 @@ def load_cities_from_csv(path: Path) -> tuple[CityWithCol, ...]:
 
 CITIES: tuple[CityWithCol, ...] = load_cities_from_csv(CONFIG.cities_csv)
 
+def generate_state_to_col_map():
+  total_state_cols = {}
+  for _, st, col in CITIES:
+    if st in total_state_cols:
+      total_state_cols[st].append(col)
+    else:
+      total_state_cols[st] = [col]
+  
+  state_col_map = {}
+  for st, cols in total_state_cols.items():
+    state_col_map[st] = sum(cols) / len(cols)
+  
+  return state_col_map
+
+STATE_TO_COL_MAP = generate_state_to_col_map()
+
+
 
 # ============================================================
 # HELPERS
@@ -724,7 +741,13 @@ def make_section(*, headings: tuple[str, ...], paras: tuple[str, ...]) -> str:
 
 
 def location_cost_section(city: str = "", st: str = "", col: float = 1) -> str:
-  rep = f" in {city}, {st}" if city and st else ""
+  rep = (
+    f" in {city}, {st}"
+    if city and st
+    else f" in {st}"
+    if st
+    else ""
+)
   cost_lo = f"<strong>${int(CONFIG.cost_low * col)}</strong>"
   cost_hi = f"<strong>${int(CONFIG.cost_high * col)}</strong>"
 
@@ -1019,13 +1042,18 @@ def state_page_html(*, mode: Mode, st: str, cities: list[CityWithCol]) -> str:
     for c, st, _ in cities
   )
 
-  inner = f"""
+  inner = (
+    f"<p>{esc(CONFIG.about_blurb)}</p>\n"
+    + make_section(headings=CONFIG.main_h2, paras=CONFIG.main_p)
+    + location_cost_section(st=state_full(st), col=STATE_TO_COL_MAP[st])
+    + f"""
 <h2>Cities we serve in {esc(state_full(st))}</h2>
 <p class="muted">Choose your city to see local details and typical pricing ranges.</p>
 <ul class="city-grid">
 {links}
 </ul>
 """.strip()
+  )
 
   show_cost = feature(mode, "cost")
   show_howto = feature(mode, "howto")
