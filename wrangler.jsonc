@@ -1,0 +1,7 @@
+{
+  "name": "pool-mastic-replacement",
+  "compatibility_date": "2026-02-12",
+  "assets": {
+    "directory": "./public"
+  }
+}
