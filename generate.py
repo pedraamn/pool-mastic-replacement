@@ -127,10 +127,11 @@ class SiteConfig:
   howto_sub: str = "A practical, homeowner-friendly guide to how repairs are typically done and when DIY breaks down."
 
   about_blurb: str = (
-    "We specialize in pool mastic replacement to protect pool decks, coping, and expansion joints from water damage and cracking. "
+    "We provide professional pool mastic replacement services{loc} to protect pool decks, coping, and expansion joints from water damage and cracking. "
     "Our service removes failed mastic and installs flexible joint material designed to handle movement and long-term exposure. "
     "Get a straightforward quote and professional service from a local pool mastic repair expert."
   )
+
 
   # =========================
   # Main content
@@ -631,7 +632,6 @@ def footer_block(*, mode: Mode, show_cta: bool = True, show_cost: bool = True, s
   cta_html = ""
   if show_cta:
     cta_html = f"""
-    <h2>Next steps</h2>
     <p class="sub">Ready to move forward? Request a free quote.</p>
     <div>
       <a class="btn" href="{esc(href_contact(mode))}">{esc(CONFIG.cta_text)}</a>
@@ -747,7 +747,7 @@ def location_cost_section(city: str = "", st: str = "", col: float = 1) -> str:
     else f" in {st}"
     if st
     else ""
-)
+  )
   cost_lo = f"<strong>${int(CONFIG.cost_low * col)}</strong>"
   cost_hi = f"<strong>${int(CONFIG.cost_high * col)}</strong>"
 
@@ -760,7 +760,21 @@ def location_cost_section(city: str = "", st: str = "", col: float = 1) -> str:
   )
   return f"<h2>{esc(h2)}</h2>\n<p>{p}</p>"
 
+def about_section(city: str = "", st: str = "") -> str:
+  rep = (
+    f" in {city}, {st}"
+    if city and st
+    else f" in {st}"
+    if st
+    else " nationwide"
+  )
 
+  p = (
+    CONFIG.about_blurb
+    .replace("{loc}", rep)
+  )
+
+  return f"<p>{p}</p>"
 # ============================================================
 # PAGE BODY SNIPPETS (simple defaults)
 # ============================================================
@@ -794,8 +808,9 @@ def homepage_html(*, mode: Mode) -> str:
   )
 
   inner = (
-    f"<p>{esc(CONFIG.about_blurb)}</p>\n"
+    about_section()
     + make_section(headings=CONFIG.main_h2, paras=CONFIG.main_p)
+    + location_cost_section()
     + """
 <hr />
 <h2>Our Service Area</h2>
@@ -888,7 +903,7 @@ def contact_page_html(mode: Mode) -> str:
 
 def city_page_html(*, mode: Mode, city: str, st: str, col: float, canonical: str) -> str:
   inner = (
-    f"<p>{esc(CONFIG.about_blurb)}</p>\n"
+    about_section(city=city, st=st)
     + make_section(headings=CONFIG.main_h2, paras=CONFIG.main_p)
     + location_cost_section(city, st, col)
   )
@@ -1006,8 +1021,9 @@ def state_homepage_html(*, mode: Mode) -> str:
   )
 
   inner = (
-    f"<p>{esc(CONFIG.about_blurb)}</p>\n"
+    about_section()
     + make_section(headings=CONFIG.main_h2, paras=CONFIG.main_p)
+    + location_cost_section()
     + """
 <hr />
 <h2>Our Service Area</h2>
@@ -1044,7 +1060,7 @@ def state_page_html(*, mode: Mode, st: str, cities: list[CityWithCol]) -> str:
   )
 
   inner = (
-    f"<p>{esc(CONFIG.about_blurb)}</p>\n"
+    about_section(st=state_full(st))
     + make_section(headings=CONFIG.main_h2, paras=CONFIG.main_p)
     + location_cost_section(st=state_full(st), col=STATE_TO_COL_MAP[st])
     + f"""
