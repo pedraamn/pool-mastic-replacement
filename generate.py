@@ -432,7 +432,7 @@ header{border-bottom:1px solid var(--line);background:radial-gradient(1200px 380
 .sub{margin:0;color:var(--muted);max-width:78ch;font-size:14px}
 main{max-width:var(--max);margin:0 auto;padding:22px 18px 46px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);max-width:100%}
-.img{margin-top:14px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--soft);box-shadow:var(--shadow2);width:100%}
+.img{margin-top:14px;margin-bottom:16px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--soft);box-shadow:var(--shadow2);width:100%}
 .img img{display:block;width:100%;height:auto}
 @media (min-width:900px){.img{max-width:50%;margin-left:auto;margin-right:auto}}
 h2{margin:18px 0 8px;font-size:16px;letter-spacing:-.01em}
